@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendify | Edit Student</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+
+<body class="dashboard-page">
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon small">
+                <span>✓</span>
+            </div>
+
+            <div>
+                <h2>Attendify</h2>
+                <span>Attendance System</span>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="/dashboard" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/students" class="nav-item active">
+                <span class="nav-icon">♙</span>
+                <span>Students</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▣</span>
+                <span>Subjects</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">✓</span>
+                <span>Attendance</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+            </a>
+
+            <p class="nav-title second">SYSTEM</p>
+
+            <a href="/admin" class="nav-item">
+                <span class="nav-icon">⚙</span>
+                <span>Administration</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <div class="user-avatar">
+                    A
+                </div>
+
+                <div class="user-info">
+                    <strong>Admin</strong>
+                    <span>Administrator</span>
+                </div>
+
+            </div>
+
+
+            <a href="/" class="logout-button">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    placeholder="Search..."
+                >
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button class="icon-button">
+                    🔔
+                </button>
+
+                <div class="top-profile">
+
+                    <div class="profile-avatar">
+                        A
+                    </div>
+
+                    <div class="profile-text">
+                        <strong>Admin</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <div class="content-container">
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <span class="welcome-label">
+                        STUDENT MANAGEMENT
+                    </span>
+
+                    <h1>
+                        Edit Student ✏️
+                    </h1>
+
+                    <p>
+                        Update the student's information.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- EDIT FORM -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Student Information
+                        </h3>
+
+                        <p>
+                            Update the details below.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    action="/students/edit/{{ student.student_id }}"
+                    method="POST"
+                    style="padding:20px 0;"
+                >
+
+                    <div style="
+                        display:grid;
+                        grid-template-columns:
+                        repeat(auto-fit,minmax(220px,1fr));
+                        gap:20px;
+                    ">
+
+
+                        <div>
+
+                            <label>
+                                Roll Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="roll_no"
+                                value="{{ student.roll_no }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Student Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ student.name }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                value="{{ student.email or '' }}"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Department
+                            </label>
+
+                            <input
+                                type="text"
+                                name="department"
+                                value="{{ student.department or '' }}"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Year
+                            </label>
+
+                            <input
+                                type="number"
+                                name="year"
+                                value="{{ student.year or '' }}"
+                                min="1"
+                                max="6"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div style="
+                        display:flex;
+                        gap:15px;
+                        margin-top:25px;
+                    ">
+
+                        <button
+                            type="submit"
+                            class="login-button"
+                            style="max-width:200px;"
+                        >
+
+                            <span>
+                                Save Changes
+                            </span>
+
+                        </button>
+
+
+                        <a
+                            href="/students"
+                            style="
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                padding:0 25px;
+                                border-radius:12px;
+                                text-decoration:none;
+                                background:#f1f5f9;
+                                color:#334155;
+                                font-weight:600;
+                            "
+                        >
+
+                            Cancel
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

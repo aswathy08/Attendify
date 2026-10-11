@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendify | Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="brand-icon small">
+                    <span>✓</span>
+                </div>
+
+                <div>
+                    <h2>Attendify</h2>
+                    <span>Attendance System</span>
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <p class="nav-title">MAIN MENU</p>
+
+                <a href="/dashboard" class="nav-item active">
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="/students" class="nav-item">
+    		    <span class="nav-icon">♙</span>
+    		    <span>Students</span>
+                </a>
+
+                <a href="/subjects" class="nav-item">
+   		 <span class="nav-icon">▣</span>
+    		 <span>Subjects</span>
+		</a>
+
+                <a href="/attendance" class="nav-item">
+    		  <span class="nav-icon">✓</span>
+    		  <span>Attendance</span>
+		</a>
+
+                <a href="/reports" class="nav-item">
+    		  <span class="nav-icon">▤</span>
+    		  <span>Reports</span>
+		</a>
+
+		
+		<a href="/chatbot" class="nav-item">
+    		    <span class="nav-icon">🤖</span>
+    		    <span>AI Assistant</span>
+		</a>
+
+                <p class="nav-title second">SYSTEM</p>
+
+                <a href="/admin" class="nav-item">
+                    <span class="nav-icon">⚙</span>
+                    <span>Administration</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">?</span>
+                    <span>Help & Support</span>
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="sidebar-user">
+
+                    <div class="user-avatar">
+                        A
+                    </div>
+
+                    <div class="user-info">
+                        <strong>Admin</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                    <span class="user-menu">⋮</span>
+
+                </div>
+
+                <a href="/" class="logout-button">
+                    <span>↪</span>
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+
+            <header class="topbar">
+
+                <div class="mobile-menu">
+                    ☰
+                </div>
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input
+                        type="text"
+                        placeholder="Search anything..."
+                    >
+
+                    <kbd>⌘ K</kbd>
+
+                </div>
+
+
+                <div class="topbar-actions">
+
+                    <button class="icon-button">
+                        🔔
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="top-profile">
+
+                        <div class="profile-avatar">
+                            A
+                        </div>
+
+                        <div class="profile-text">
+                            <strong>Admin</strong>
+                            <span>Administrator</span>
+                        </div>
+
+                        <span>⌄</span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- PAGE CONTENT -->
+
+            <div class="content-container">
+
+                <!-- WELCOME -->
+
+                <section class="welcome-section">
+
+                    <div>
+                        <span class="welcome-label">
+                            OVERVIEW
+                        </span>
+
+                        <h1>
+                            Good morning, Admin <span>👋</span>
+                        </h1>
+
+                        <p>
+                            Here's what's happening with your attendance today.
+                        </p>
+                    </div>
+
+                    <div class="date-display">
+                        <span>▣</span>
+                        September 27, 2026
+                    </div>
+
+                </section>
+
+
+                <!-- STATISTICS -->
+
+                <section class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <div class="stat-icon blue">
+                                ♙
+                            </div>
+
+                            <span class="stat-trend positive">
+                                ↑ 12.5%
+                            </span>
+                        </div>
+
+                        <p>Total Students</p>
+
+			<h2>{{ total_students }}</h2>
+
+                        <span class="stat-description">
+                            Compared to last month
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <div class="stat-icon purple">
+                                ▣
+                            </div>
+
+                            <span class="stat-trend positive">
+                                ↑ 2
+                            </span>
+                        </div>
+
+                        <p>Total Subjects</p>
+
+                        <h2>{{ total_subjects }}</h2>
+
+                        <span class="stat-description">
+                            Active subjects
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <div class="stat-icon green">
+                                ✓
+                            </div>
+
+                            <span class="stat-trend positive">
+                                ↑ 4.2%
+                            </span>
+                        </div>
+
+                        <p>Today's Attendance</p>
+
+                        <h2>{{ today_attendance }}%</h2>
+
+                        <span class="stat-description">
+                            Today's recorded attendance
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <div class="stat-icon orange">
+                                ◷
+                            </div>
+
+                            <span class="stat-trend neutral">
+                                Today
+                            </span>
+                        </div>
+
+                        <p>Classes Today</p>
+
+                        <h2>{{ classes_today }}</h2>
+
+                        <span class="stat-description">
+                            4 completed
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- MAIN GRID -->
+
+                <section class="dashboard-grid">
+
+
+                    <!-- ATTENDANCE OVERVIEW -->
+
+                    <div class="dashboard-card attendance-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Attendance Overview</h3>
+                                <p>Weekly attendance performance</p>
+                            </div>
+
+                            <select>
+                                <option>This Week</option>
+                                <option>Last Week</option>
+                                <option>This Month</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="chart-container">
+
+                            <div class="chart-y-axis">
+                                <span>100%</span>
+                                <span>75%</span>
+                                <span>50%</span>
+                                <span>25%</span>
+                                <span>0%</span>
+                            </div>
+
+                            <div class="fake-chart">
+
+                                <div class="chart-grid-lines">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                                <div class="bars">
+
+                                    <div class="bar-column">
+                                        <div class="bar" style="height: 78%"></div>
+                                        <span>Mon</span>
+                                    </div>
+
+                                    <div class="bar-column">
+                                        <div class="bar" style="height: 88%"></div>
+                                        <span>Tue</span>
+                                    </div>
+
+                                    <div class="bar-column">
+                                        <div class="bar" style="height: 72%"></div>
+                                        <span>Wed</span>
+                                    </div>
+
+                                    <div class="bar-column">
+                                        <div class="bar" style="height: 94%"></div>
+                                        <span>Thu</span>
+                                    </div>
+
+                                    <div class="bar-column">
+                                        <div class="bar" style="height: 84%"></div>
+                                        <span>Fri</span>
+                                    </div>
+
+                                    <div class="bar-column">
+                                        <div class="bar" style="height: 90%"></div>
+                                        <span>Sat</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="dashboard-card quick-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Quick Actions</h3>
+                                <p>Frequently used actions</p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="quick-actions">
+
+                            <button class="quick-action blue-action">
+
+                                <span class="quick-icon">
+                                    +
+                                </span>
+
+                                <div>
+                                    <strong>Add Student</strong>
+                                    <small>Register a new student</small>
+                                </div>
+
+                                <span>→</span>
+
+                            </button>
+
+
+                            <button class="quick-action purple-action">
+
+                                <span class="quick-icon">
+                                    +
+                                </span>
+
+                                <div>
+                                    <strong>Add Subject</strong>
+                                    <small>Create a new subject</small>
+                                </div>
+
+                                <span>→</span>
+
+                            </button>
+
+
+                            <button class="quick-action green-action">
+
+                                <span class="quick-icon">
+                                    ✓
+                                </span>
+
+                                <div>
+                                    <strong>Mark Attendance</strong>
+                                    <small>Record today's attendance</small>
+                                </div>
+
+                                <span>→</span>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- BOTTOM GRID -->
+
+                <section class="bottom-grid">
+
+
+                    <!-- RECENT ATTENDANCE -->
+
+                    <div class="dashboard-card recent-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Recent Attendance</h3>
+                                <p>Latest attendance records</p>
+                            </div>
+
+                            <a href="#">
+                                View all →
+                            </a>
+
+                        </div>
+
+
+                        <div class="attendance-table">
+
+                            <div class="table-header">
+                                <span>STUDENT</span>
+                                <span>SUBJECT</span>
+                                <span>DATE</span>
+                                <span>STATUS</span>
+                            </div>
+
+
+                            <div class="table-row">
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar avatar-one">
+                                        AS
+                                    </div>
+
+                                    <div>
+                                        <strong>Aswathi S</strong>
+                                        <small>AD001</small>
+                                    </div>
+
+                                </div>
+
+                                <span>Python</span>
+
+                                <span>Today</span>
+
+                                <span class="status present">
+                                    Present
+                                </span>
+
+                            </div>
+
+
+                            <div class="table-row">
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar avatar-two">
+                                        SK
+                                    </div>
+
+                                    <div>
+                                        <strong>Santhini K</strong>
+                                        <small>AD002</small>
+                                    </div>
+
+                                </div>
+
+                                <span>Data Science</span>
+
+                                <span>Today</span>
+
+                                <span class="status present">
+                                    Present
+                                </span>
+
+                            </div>
+
+
+                            <div class="table-row">
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar avatar-three">
+                                        RJ
+                                    </div>
+
+                                    <div>
+                                        <strong>Rohit J</strong>
+                                        <small>AD003</small>
+                                    </div>
+
+                                </div>
+
+                                <span>Database</span>
+
+                                <span>Today</span>
+
+                                <span class="status absent">
+                                    Absent
+                                </span>
+
+                            </div>
+
+
+                            <div class="table-row">
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar avatar-four">
+                                        PM
+                                    </div>
+
+                                    <div>
+                                        <strong>Priya M</strong>
+                                        <small>AD004</small>
+                                    </div>
+
+                                </div>
+
+                                <span>Python</span>
+
+                                <span>Yesterday</span>
+
+                                <span class="status present">
+                                    Present
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ATTENDANCE SUMMARY -->
+
+                    <div class="dashboard-card summary-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Attendance Summary</h3>
+                                <p>Overall performance</p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-circle">
+
+                            <div class="circle-progress">
+                                <div>
+                                    <strong>92%</strong>
+                                    <span>Overall</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-details">
+
+                            <div>
+                                <span class="summary-dot present-dot"></span>
+                                <span>Present</span>
+                                <strong>92%</strong>
+                            </div>
+
+                            <div>
+                                <span class="summary-dot absent-dot"></span>
+                                <span>Absent</span>
+                                <strong>8%</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

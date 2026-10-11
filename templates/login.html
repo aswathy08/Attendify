@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendify | Login</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="login-page">
+
+    <div class="login-background">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="orb orb-three"></div>
+    </div>
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    <span>✓</span>
+                </div>
+
+                <div>
+                    <h1>Attendify</h1>
+                    <p>Smart Attendance Management</p>
+                </div>
+            </div>
+
+            <div class="login-heading">
+                <h2>Welcome back 👋</h2>
+                <p>Sign in to continue to your dashboard.</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('login_user') }}">
+                <div class="input-group">
+                    <label for="username">Username</label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            aria-label="Show password"
+                        >
+                            👁
+                        </button>
+                    </div>
+                </div>
+
+                <div class="login-options">
+                    <label class="remember">
+                        <input type="checkbox">
+                        <span>Remember me</span>
+                    </label>
+
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-button">
+                    <span>Sign In</span>
+                    <span class="button-arrow">→</span>
+                </button>
+
+            </form>
+
+            <div class="login-footer">
+                <span>Secure access</span>
+                <span>•</span>
+                <span>Attendance Management System</span>
+            </div>
+
+        </section>
+
+        <p class="copyright">
+            © 2026 Attendify. All rights reserved.
+        </p>
+
+    </main>
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            const button = document.querySelector(".password-toggle");
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.textContent = "🙈";
+            } else {
+                password.type = "password";
+                button.textContent = "👁";
+            }
+        }
+    </script>
+
+</body>
+</html>

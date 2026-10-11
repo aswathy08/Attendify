@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | Attendify</title>
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #111827;
+
+            padding: 24px 16px;
+
+            color: white;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+
+            margin-bottom: 35px;
+            padding-left: 12px;
+        }
+
+        .logo span {
+            color: #6366f1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 14px;
+
+            margin-bottom: 6px;
+
+            border-radius: 10px;
+
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            transition: 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 24px;
+            text-align: center;
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 32px;
+        }
+
+        .topbar {
+            margin-bottom: 28px;
+        }
+
+        .title h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .title p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           ANALYTICS CARDS
+        ========================= */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(15, 23, 42, 0.06);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(15, 23, 42, 0.09);
+        }
+
+        .stat-card p {
+
+            font-size: 12px;
+
+            color: #64748b;
+
+            margin-bottom: 5px;
+        }
+
+        .stat-card h2 {
+
+            font-size: 25px;
+
+            color: #1e293b;
+        }
+
+        .stat-icon {
+
+            width: 46px;
+            height: 46px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+        .stat-icon.purple {
+
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .stat-icon.green {
+
+            background: #ecfdf5;
+            color: #16a34a;
+        }
+
+        .stat-icon.red {
+
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .stat-icon.blue {
+
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+
+        /* =========================
+           FILTER PANEL
+        ========================= */
+
+        .filter-panel {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(15, 23, 42, 0.06);
+        }
+
+        .filter-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 16px;
+
+            align-items: end;
+        }
+
+        .filter-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .filter-group label {
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            color: #64748b;
+        }
+
+        .filter-group select,
+        .filter-group input {
+
+            height: 42px;
+
+            padding: 0 12px;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: #334155;
+
+            outline: none;
+
+            font-size: 13px;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(99, 102, 241, 0.1);
+        }
+
+        .filter-buttons {
+
+            display: flex;
+
+            gap: 8px;
+        }
+
+        .filter-btn,
+        .reset-btn {
+
+            height: 42px;
+
+            padding: 0 16px;
+
+            border-radius: 9px;
+
+            border: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .filter-btn {
+
+            background: #4f46e5;
+
+            color: white;
+        }
+
+        .filter-btn:hover {
+
+            background: #4338ca;
+        }
+
+        .reset-btn {
+
+            background: #f1f5f9;
+
+            color: #475569;
+        }
+
+        .reset-btn:hover {
+
+            background: #e2e8f0;
+        }
+
+
+        /* =========================
+           CHART
+        ========================= */
+
+        .chart-card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(15, 23, 42, 0.06);
+        }
+
+        .chart-header {
+
+            margin-bottom: 15px;
+        }
+
+        .chart-header h2 {
+
+            font-size: 19px;
+
+            margin-bottom: 5px;
+        }
+
+        .chart-header p {
+
+            font-size: 13px;
+
+            color: #64748b;
+        }
+
+        .chart-container {
+
+            position: relative;
+
+            height: 280px;
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+
+        /* =========================
+           REPORT TABLE
+        ========================= */
+
+        .report-card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(15, 23, 42, 0.06);
+
+            overflow-x: auto;
+        }
+
+        .report-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .report-header h2 {
+
+            font-size: 19px;
+        }
+
+        .record-count {
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 850px;
+        }
+
+        th {
+
+            text-align: left;
+
+            padding: 14px 12px;
+
+            background: #f8fafc;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+        }
+
+        td {
+
+            padding: 16px 12px;
+
+            border-bottom:
+                1px solid #eef2f7;
+
+            font-size: 14px;
+        }
+
+        tr:hover td {
+
+            background: #fafbff;
+        }
+
+        .student-name {
+
+            font-weight: 600;
+
+            color: #1e293b;
+        }
+
+        .roll {
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        .subject-code {
+
+            display: inline-block;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            padding: 5px 9px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .percentage {
+
+            font-weight: 700;
+        }
+
+        .good {
+
+            color: #16a34a;
+        }
+
+        .warning {
+
+            color: #d97706;
+        }
+
+        .danger {
+
+            color: #dc2626;
+        }
+
+        .empty {
+
+            text-align: center;
+
+            padding: 50px;
+
+            color: #64748b;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .filter-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                width: 70px;
+
+                padding:
+                    20px 8px;
+            }
+
+            .logo {
+
+                font-size: 0;
+            }
+
+            .logo span {
+
+                font-size: 22px;
+            }
+
+            .nav-item span:not(.nav-icon) {
+
+                display: none;
+            }
+
+            .main {
+
+                margin-left: 70px;
+
+                padding: 20px;
+            }
+
+            .stats-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .filter-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .filter-buttons {
+
+                width: 100%;
+            }
+
+            .filter-btn,
+            .reset-btn {
+
+                flex: 1;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            Attend<span>ify</span>
+
+        </div>
+
+
+        <a href="/dashboard"
+           class="nav-item">
+
+            <span class="nav-icon">
+                ⌂
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="/students"
+           class="nav-item">
+
+            <span class="nav-icon">
+                ♙
+            </span>
+
+            <span>
+                Students
+            </span>
+
+        </a>
+
+
+        <a href="/subjects"
+           class="nav-item">
+
+            <span class="nav-icon">
+                ▣
+            </span>
+
+            <span>
+                Subjects
+            </span>
+
+        </a>
+
+
+        <a href="/attendance"
+           class="nav-item">
+
+            <span class="nav-icon">
+                ✓
+            </span>
+
+            <span>
+                Attendance
+            </span>
+
+        </a>
+
+
+        <a href="/reports"
+           class="nav-item active">
+
+            <span class="nav-icon">
+                ▤
+            </span>
+
+            <span>
+                Reports
+            </span>
+
+        </a>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+
+        <div class="topbar">
+
+            <div class="title">
+
+                <h1>
+                    Attendance Reports
+                </h1>
+
+                <p>
+                    View student-wise and
+                    subject-wise attendance performance.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             ANALYTICS CARDS
+        ========================= -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    📚
+                </div>
+
+                <div>
+
+                    <p>
+                        Total Classes
+                    </p>
+
+                    <h2>
+                        {{ total_classes }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ✓
+                </div>
+
+                <div>
+
+                    <p>
+                        Present
+                    </p>
+
+                    <h2>
+                        {{ total_present }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon red">
+                    ✕
+                </div>
+
+                <div>
+
+                    <p>
+                        Absent
+                    </p>
+
+                    <h2>
+                        {{ total_absent }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    %
+                </div>
+
+                <div>
+
+                    <p>
+                        Overall Attendance
+                    </p>
+
+                    <h2>
+                        {{ overall_percentage }}%
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             FILTER PANEL
+        ========================= -->
+
+        <div class="filter-panel">
+
+
+            <form method="GET"
+                  action="/reports">
+
+
+                <div class="filter-grid">
+
+
+                    <!-- STUDENT -->
+
+                    <div class="filter-group">
+
+                        <label>
+                            Student
+                        </label>
+
+                        <select name="student_id">
+
+                            <option value="">
+                                All Students
+                            </option>
+
+
+                            {% for student in students %}
+
+                            <option
+                                value="{{ student.student_id }}"
+
+                                {% if selected_student == student.student_id|string %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ student.roll_no }}
+                                -
+                                {{ student.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="filter-group">
+
+                        <label>
+                            Subject
+                        </label>
+
+                        <select name="subject_id">
+
+                            <option value="">
+                                All Subjects
+                            </option>
+
+
+                            {% for subject in subjects %}
+
+                            <option
+                                value="{{ subject.subject_id }}"
+
+                                {% if selected_subject == subject.subject_id|string %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ subject.subject_code }}
+                                -
+                                {{ subject.subject_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- FROM DATE -->
+
+                    <div class="filter-group">
+
+                        <label>
+                            From Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="start_date"
+                            value="{{ start_date or '' }}"
+                        >
+
+                    </div>
+
+
+
+                    <!-- TO DATE -->
+
+                    <div class="filter-group">
+
+                        <label>
+                            To Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="end_date"
+                            value="{{ end_date or '' }}"
+                        >
+
+                    </div>
+
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="filter-buttons">
+
+                        <button
+                            type="submit"
+                            class="filter-btn"
+                        >
+
+                            🔎 Filter
+
+                        </button>
+
+
+                        <a
+                            href="/reports"
+                            class="reset-btn"
+                        >
+
+                            ↻ Reset
+
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             ATTENDANCE CHART
+        ========================= -->
+
+        <div class="chart-card">
+
+
+            <div class="chart-header">
+
+                <h2>
+                    Attendance Overview
+                </h2>
+
+                <p>
+                    Present vs absent classes
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas
+                    id="attendanceChart">
+                </canvas>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             REPORT TABLE
+        ========================= -->
+
+        <div class="report-card">
+
+
+            <div class="report-header">
+
+                <h2>
+                    Attendance Summary
+                </h2>
+
+
+                <div class="record-count">
+
+                    {{ reports|length }}
+                    Records
+
+                </div>
+
+            </div>
+
+
+
+            {% if reports %}
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Roll No
+                        </th>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Total Classes
+                        </th>
+
+                        <th>
+                            Present
+                        </th>
+
+                        <th>
+                            Absent
+                        </th>
+
+                        <th>
+                            Attendance
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    {% for row in reports %}
+
+
+                    <tr>
+
+
+                        <td>
+
+                            <span class="roll">
+
+                                {{ row.roll_no }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <td>
+
+                            <span class="student-name">
+
+                                {{ row.name }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <td>
+
+                            <span class="subject-code">
+
+                                {{ row.subject_code }}
+
+                            </span>
+
+                            <br>
+
+                            <small>
+
+                                {{ row.subject_name }}
+
+                            </small>
+
+                        </td>
+
+
+
+                        <td>
+
+                            {{ row.total_classes }}
+
+                        </td>
+
+
+
+                        <td>
+
+                            {{ row.present_count }}
+
+                        </td>
+
+
+
+                        <td>
+
+                            {{ row.absent_count }}
+
+                        </td>
+
+
+
+                        <td>
+
+
+                            {% if row.percentage >= 75 %}
+
+                                <span
+                                    class="percentage good">
+
+                                    {{ row.percentage }}%
+
+                                </span>
+
+
+                            {% elif row.percentage >= 65 %}
+
+                                <span
+                                    class="percentage warning">
+
+                                    {{ row.percentage }}%
+
+                                </span>
+
+
+                            {% else %}
+
+                                <span
+                                    class="percentage danger">
+
+                                    {{ row.percentage }}%
+
+                                </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+            {% else %}
+
+
+            <div class="empty">
+
+                <h3>
+                    No attendance records found
+                </h3>
+
+                <p>
+                    Try changing your filters
+                    or record some attendance.
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         CHART JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        const chartElement =
+            document.getElementById(
+                "attendanceChart"
+            );
+
+
+        const present =
+            {{ total_present|default(0) }};
+
+
+        const absent =
+            {{ total_absent|default(0) }};
+
+
+        new Chart(
+            chartElement,
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: [
+                        "Present",
+                        "Absent"
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            data: [
+                                present,
+                                absent
+                            ],
+
+                            borderWidth: 0
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    cutout: "68%",
+
+
+                    plugins: {
+
+                        legend: {
+
+                            position: "bottom",
+
+                            labels: {
+
+                                padding: 20,
+
+                                usePointStyle: true
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

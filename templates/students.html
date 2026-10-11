@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendify | Students</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+
+<body class="dashboard-page">
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon small">
+                <span>✓</span>
+            </div>
+
+            <div>
+                <h2>Attendify</h2>
+                <span>Attendance System</span>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="/dashboard" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/students" class="nav-item active">
+                <span class="nav-icon">♙</span>
+                <span>Students</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▣</span>
+                <span>Subjects</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">✓</span>
+                <span>Attendance</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+            </a>
+
+            <p class="nav-title second">SYSTEM</p>
+
+            <a href="/admin" class="nav-item">
+                <span class="nav-icon">⚙</span>
+                <span>Administration</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <div class="user-avatar">
+                    A
+                </div>
+
+                <div class="user-info">
+                    <strong>Admin</strong>
+                    <span>Administrator</span>
+                </div>
+
+            </div>
+
+
+            <a href="/" class="logout-button">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input type="text"
+                       placeholder="Search students...">
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button class="icon-button">
+                    🔔
+                </button>
+
+                <div class="top-profile">
+
+                    <div class="profile-avatar">
+                        A
+                    </div>
+
+                    <div class="profile-text">
+                        <strong>Admin</strong>
+                        <span>Administrator</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <div class="content-container">
+
+
+            <!-- PAGE HEADER -->
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <span class="welcome-label">
+                        MANAGEMENT
+                    </span>
+
+                    <h1>
+                        Students 👨‍🎓
+                    </h1>
+
+                    <p>
+                        Manage students registered in the attendance system.
+                    </p>
+
+                </div>
+
+
+                <div class="date-display">
+                    👥 {{ students|length }} Students
+                </div>
+
+            </section>
+
+
+            <!-- ADD STUDENT -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Add New Student</h3>
+
+                        <p>
+                            Register a student in Attendify
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form action="/students/add"
+                      method="POST"
+                      style="padding: 20px 0;">
+
+                    <div style="
+                        display:grid;
+                        grid-template-columns:
+                        repeat(auto-fit,minmax(180px,1fr));
+                        gap:15px;
+                    ">
+
+                        <input
+                            type="text"
+                            name="roll_no"
+                            placeholder="Roll Number"
+                            required
+                        >
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Student Name"
+                            required
+                        >
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                        >
+
+                        <input
+                            type="text"
+                            name="department"
+                            placeholder="Department"
+                        >
+
+                        <input
+                            type="number"
+                            name="year"
+                            placeholder="Year"
+                            min="1"
+                            max="6"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                        style="
+                            margin-top:20px;
+                            max-width:200px;
+                        "
+                    >
+
+                        <span>+ Add Student</span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- STUDENT TABLE -->
+
+            <div class="dashboard-card"
+                 style="margin-top:25px;">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>Student List</h3>
+
+                        <p>
+                            All registered students
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="attendance-table">
+
+                    <div class="table-header">
+
+                        <span>ROLL NO</span>
+
+                        <span>STUDENT</span>
+
+                        <span>EMAIL</span>
+
+                        <span>DEPARTMENT</span>
+
+                        <span>YEAR</span>
+
+                    </div>
+
+
+                    {% for student in students %}
+
+                    <div class="table-row">
+
+                        <span>
+                            {{ student.roll_no }}
+                        </span>
+
+
+                        <div class="student-cell">
+
+                            <div class="student-avatar">
+                                {{ student.name[0]|upper }}
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    {{ student.name }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <span>
+                            {{ student.email or '-' }}
+                        </span>
+
+
+                        <span>
+                            {{ student.department or '-' }}
+                        </span>
+
+
+                        <span>
+                            {{ student.year or '-' }}
+                        </span>
+			
+
+			<div style="display:flex; gap:8px;">
+
+    <a
+        href="/students/edit/{{ student.student_id }}"
+        style="
+            text-decoration:none;
+            padding:8px 12px;
+            border-radius:8px;
+            background:#eef2ff;
+            color:#4f46e5;
+            font-weight:600;
+        "
+    >
+        ✏️
+    </a>
+
+    <a
+        href="/students/delete/{{ student.student_id }}"
+        onclick="return confirm('Are you sure you want to delete this student?');"
+        style="
+            text-decoration:none;
+            padding:8px 12px;
+            border-radius:8px;
+            background:#fef2f2;
+            color:#dc2626;
+            font-weight:600;
+        "
+    >
+        🗑️
+    </a>
+
+</div>
+
+                    </div>
+
+                    {% else %}
+
+                    <div style="
+                        padding:40px;
+                        text-align:center;
+                    ">
+
+                        <h3>No students yet 👨‍🎓</h3>
+
+                        <p>
+                            Add your first student using the form above.
+                        </p>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
