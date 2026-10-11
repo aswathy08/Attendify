@@ -1,222 +1,198 @@
-\# Attendify – AI-Powered Attendance Management System
+# 🎓 Attendify – AI-Powered Attendance Management System
 
+Attendify is a web-based student attendance management system developed using Python, Flask, and MySQL. It provides a centralized platform to manage student records, subjects, daily attendance, and attendance reports through a user-friendly dashboard.
 
+The project also includes an AI attendance assistant that answers natural-language questions by analyzing attendance records stored in the database.
 
-Attendify is a web-based attendance management system built using Python, Flask, and MySQL. It helps manage student records, subjects, attendance, and attendance reports through a user-friendly dashboard.
+## ✨ Features
 
+### 📊 Dashboard
+- View student and subject statistics.
+- Get an overview of attendance information.
 
+### 👩‍🎓 Student Management
+- Add new students.
+- View student records.
+- Edit student details.
+- Delete student records.
 
-It also includes a rule-based AI attendance assistant that retrieves attendance data from MySQL and answers questions using dynamic calculations.
+### 📚 Subject Management
+- Add and manage subjects.
+- Maintain subject codes and names.
 
+### ✅ Attendance Management
+- Record attendance for individual students.
+- Select subjects and attendance dates.
+- Mark students as Present or Absent.
+- Update existing attendance records.
 
+### 📈 Reports and Analytics
+- Filter attendance reports by student, subject, and date range.
+- Calculate attendance percentages.
+- View present and absent counts.
+- Visualize attendance statistics.
 
-\## Features
+### 🤖 AI Attendance Assistant
+Ask questions in natural language, such as:
 
+- How is my attendance?
+- How many classes have I attended?
+- How many classes did I miss?
+- Can I miss tomorrow's class?
+- How many classes can I safely miss?
+- How many classes do I need to attend to reach 85%?
+- How can I improve my attendance?
 
+The assistant retrieves attendance data for the selected student and subject and calculates answers dynamically.
 
-\- \*\*Dashboard:\*\* View student and subject statistics.
+### 🔐 Login System
+- Session-based login.
+- Protected application pages.
 
-\- \*\*Student Management:\*\* Add, view, edit, and delete student records.
+## 🛠️ Technology Stack
 
-\- \*\*Subject Management:\*\* Manage subjects and subject codes.
+| Technology | Purpose |
+|---|---|
+| Python | Application logic |
+| Flask | Web framework |
+| MySQL | Database |
+| HTML5 | Page structure |
+| CSS3 | Styling and layout |
+| JavaScript | Frontend interactions |
+| Chart.js | Data visualization |
+| mysql-connector-python | MySQL connectivity |
 
-\- \*\*Attendance Management:\*\* Record attendance by student, subject, and date.
-
-\- \*\*Reports \& Analytics:\*\* Filter attendance reports and view attendance percentages.
-
-\- \*\*AI Attendance Assistant:\*\* Ask questions about attendance, absences, leave, and target percentages.
-
-\- \*\*Login System:\*\* Session-based access to the application.
-
-
-
-\## Technology Stack
-
-
-
-\- Python
-
-\- Flask
-
-\- MySQL
-
-\- HTML
-
-\- CSS
-
-\- JavaScript
-
-\- Chart.js
-
-\- mysql-connector-python
-
-
-
-\## Project Structure
-
-
+## 📁 Project Structure
 
 ```text
-
-attendance\_app/
-
+Attendify/
 ├── app.py
-
-├── attendance\_agent.py
-
-├── config.example.py
-
+├── attendance_agent.py
 ├── database.py
-
-├── .gitignore
-
+├── config.example.py
+├── requirements.txt
 ├── README.md
-
+├── .gitignore
+├── database/
+│   └── schema.sql
+├── routes/
 ├── static/
-
+│   ├── css/
+│   ├── images/
+│   └── js/
 └── templates/
-
 ```
 
+## 🚀 Installation and Setup
 
-
-\## Setup Instructions
-
-
-
-\### 1. Clone the repository
-
-
+### 1. Clone the repository
 
 ```bash
-
-git clone YOUR\_GITHUB\_REPOSITORY\_URL
-
-cd attendance\_app
-
+git clone https://github.com/aswathy08/Attendify.git
+cd Attendify
 ```
 
-
-
-\### 2. Create a virtual environment
-
-
+### 2. Create a virtual environment
 
 ```bash
-
 python -m venv venv
-
 ```
-
-
 
 Activate it on Windows:
 
-
-
 ```cmd
-
-venv\\Scripts\\activate
-
+venv\Scripts\activate
 ```
 
-
-
-\### 3. Install dependencies
-
-
+### 3. Install dependencies
 
 ```bash
-
-pip install Flask mysql-connector-python
-
+pip install -r requirements.txt
 ```
 
+### 4. Configure MySQL
 
+Make sure MySQL Server is installed and running.
 
-\### 4. Configure MySQL
+Create the database:
 
+```sql
+CREATE DATABASE attendance_db;
+```
 
+Create the required tables in `attendance_db`:
 
-Create a MySQL database named `attendance\_db` and create the required tables: `users`, `students`, `subjects`, and `attendance`.
+- `users`
+- `students`
+- `subjects`
+- `attendance`
 
+The tables must use the columns and relationships expected by the application.
 
+### 5. Configure database credentials
 
-Copy the example configuration:
-
-
+Create your local configuration file by copying the example:
 
 ```cmd
-
 copy config.example.py config.py
-
 ```
 
+Edit `config.py` and enter your own local MySQL credentials.
 
+**Important:** Never upload `config.py`, database passwords, or other secrets to GitHub.
 
-Edit `config.py` with your own local MySQL credentials.
-
-
-
-Create an admin account in the `users` table using credentials appropriate for your local setup.
-
-
-
-\### 5. Run the application
-
-
+### 6. Run the application
 
 ```bash
-
 python app.py
-
 ```
 
+Open your browser and visit:
 
+http://127.0.0.1:5000
 
-Open `http://127.0.0.1:5000` in your browser.
+Log in using an account configured in your local database.
 
+## 🧮 Attendance Calculation
 
+The assistant calculates attendance using the selected student's records for the selected subject.
 
-\## AI Attendance Assistant
+**Attendance percentage:**
 
+Attendance (%) = (Classes Attended / Total Classes) × 100
 
+It can also estimate the number of consecutive classes a student needs to attend to reach a specified target, assuming every upcoming class is attended.
 
-The assistant supports questions such as:
+The safe-leave and recovery calculations currently use a 75% attendance threshold.
 
+## 🔒 Security Considerations
 
+This project is intended for learning and demonstration.
 
-\- How is my attendance?
+Before production deployment:
 
-\- How many classes have I attended?
+- Hash passwords securely.
+- Use a strong secret key stored in environment variables.
+- Validate user input.
+- Apply role-based access controls.
+- Protect student information and database credentials.
+- Use secure session and deployment settings.
 
-\- How many classes did I miss?
+## 🔮 Future Enhancements
 
-\- Can I miss the next class?
+- Student-specific login accounts.
+- Automated attendance notifications.
+- Exportable PDF and Excel reports.
+- Improved natural-language understanding.
+- Configurable attendance thresholds.
+- More detailed analytics and visualizations.
 
-\- How many classes can I safely miss?
+## 👩‍💻 Author
 
-\- How many classes do I need to attend to reach 85%?
-
-
-
-Answers are calculated using the selected student's attendance records for the selected subject.
-
-
-
-\## Note
-
-
-
-This is an educational project. Before production deployment, add secure password hashing, stronger session-secret management, input validation, and appropriate access controls.
-
-
-
-\## Author
-
-
-
-Aswathi S  
+**Aswathi S**
 
 B.Tech – Artificial Intelligence and Data Science
 
+## 📄 License
+
+This project is available for educational and learning purposes. Add an explicit open-source license if you wish to permit reuse under particular terms.
